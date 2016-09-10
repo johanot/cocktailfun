@@ -1,33 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta name=viewport content="width=device-width,initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
-    <script type="text/javascript" src="../jplayer.js"></script>
-    <script>
-        $(document).ready(function(){
+    <script type="text/javascript" src="../detect.js"></script>
 
+    <script type="text/javascript">
 
-            if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-                setTimeout(function(){
-                    location.href = '../foejforhelvede';
-                }, 1000);
-            } else {
-                $("#jquery_jplayer_1").jPlayer({
-                    ready: function () {
-                        $(this).jPlayer("setMedia", {
-                            mp3: "sound.mp3"
-                        }).jPlayer("play");
-                    },
-                    ended: function (event) {
-                        $(this).jPlayer("stop");
-                        location.href = '../foejforhelvede';
-                    },
-                    swfPath: "js",
-                    supplied: "mp3"
-                });
-            }
+        $(function() {
+            playSound('../foejforhelvede', function() {
 
+                $("#m1").show();
+                var state = 1;
+                var int = setTimeout(function() {
+                    $(".hidden").hide();
+                    switch (state)
+                    {
+                        case 1:
+                            $("#m2").show();
+                            state = 2;
+                            break;
+                        default:
+                            clearInterval(int);
+                    }
+                }, 3000);
+            });
         });
 
     </script>
@@ -49,19 +46,21 @@
         #inner {
             width: 100%;
             height: 100%;
+            display: table;
         }
 
         h1 {
             display: table-cell;
             vertical-align: middle;
             font-family: Helvetica, Arial, sans-serif;
-            font-size: 50px;
+            font-size: 80px;
             text-align: center;
             height: 50px;
+            color: white;
         }
 
-        #footer { bottom: 5px; position: absolute; font-family: Helvetica, Arial, sans-serif; font-size: 10pt;}
-        #social { bottom: 5px; right: 5px; position: absolute; }
+        #footer { bottom: 5px; position: absolute; font-family: Helvetica, Arial, sans-serif; font-size: 10pt; color: white; }
+        .hidden { display: none; }
         a { color: #999; }
 
 
@@ -71,13 +70,22 @@
 </head>
 <body>
 
-<div id="jquery_jplayer_1" class="jp-jplayer"></div>
-<div id="inner" style="background-image: url('image.png'); background-repeat: no-repeat; background-position: center;">
+<div id="inner" style="background-image: url('image.png'); background-repeat: no-repeat; background-position: center; background-size:cover;">
+    <h1 class="hidden" id="m1">Mmmmmmmmmh</h1>
+    <h1 class="hidden" id="m2">Mmmmmmh MMMmmmmmmmH!</h1>
+    <h1 class="hidden" id="mobilehint">TRYK</h1>
 </div>
 
 
 <div id="footer">
-    Made by Johan Thomsen, Tak til Dybvaaaaad
+    Lavet af Johan Thomsen, Tak til Dybvaaaaad
+</div>
+<div style="visibility: hidden">
+    <audio controls id="sound">
+        <source src="sound.ogg" type="audio/ogg">
+        <source src="sound.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
 </div>
 
 </body>
